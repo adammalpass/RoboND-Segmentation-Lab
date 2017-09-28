@@ -1,0 +1,54 @@
+def fcn_model(inputs, num_classes):
+    
+    # TODO Add Encoder Blocks. 
+    # Remember that with each encoder layer, the depth of your model (the number of filters)\
+	 increases.
+    l1 = encoder_block(inputs, 32, 2)
+    l2 = encoder_block(l1, 64, 2)
+
+    # TODO Add 1x1 Convolution layer using conv2d_batchnorm().
+    l3 = conv2d_batchnorm(l2, 128, kernel_size=1, strides=1)
+    
+    # TODO: Add the same number of Decoder Blocks as the number of Encoder Blocks
+    l4 = decoder_block(l3, l1, 64)
+    l5 = decoder_block(l4, inputs, 32)
+    
+    
+    # The function returns the output layer of your model. "x" is the final layer obtained from\
+	 the last decoder_block()
+    return layers.Conv2D(num_classes, 3, activation='softmax', padding='same')(l5)
+
+
+learning_rate = 0.01
+batch_size = 128
+num_epochs = 10
+
+==================================
+Results:
+Epoch 1/10
+500/500 [==============================] - 524s - loss: 0.0495 - val_loss: 0.0576
+Epoch 2/10
+500/500 [==============================] - 517s - loss: 0.0136 - val_loss: 0.0321
+Epoch 3/10
+500/500 [==============================] - 535s - loss: 0.0118 - val_loss: 0.0259
+Epoch 4/10
+500/500 [==============================] - 536s - loss: 0.0106 - val_loss: 0.0252
+Epoch 5/10
+500/500 [==============================] - 516s - loss: 0.0098 - val_loss: 0.0229
+Epoch 6/10
+500/500 [==============================] - 521s - loss: 0.0094 - val_loss: 0.0305
+Epoch 7/10
+500/500 [==============================] - 525s - loss: 0.0089 - val_loss: 0.0222
+Epoch 8/10
+500/500 [==============================] - 526s - loss: 0.0087 - val_loss: 0.0296
+Epoch 9/10
+500/500 [==============================] - 524s - loss: 0.0085 - val_loss: 0.0212
+Epoch 10/10
+500/500 [==============================] - 527s - loss: 0.0083 - val_loss: 0.0212
+
+
+number of validation samples intersection over the union evaulated on 724
+average intersection over union for background is 0.9960567486794657
+average intersection over union for hero is 0.5820589198429281
+average intersection over union for other people is 0.2726505149624241
+global average intersection over union is 0.616922061161606
