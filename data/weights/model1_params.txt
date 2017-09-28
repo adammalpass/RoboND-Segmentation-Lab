@@ -1,0 +1,45 @@
+def fcn_model(inputs, num_classes):
+    
+    # TODO Add Encoder Blocks. 
+    # Remember that with each encoder layer, the depth of your model (the number of filters)\
+	increases.
+    l1 = encoder_block(inputs, 16, 2)
+    l2 = encoder_block(l1, 32, 2)
+
+    # TODO Add 1x1 Convolution layer using conv2d_batchnorm().
+    l3 = conv2d_batchnorm(l2, 64, kernel_size=1, strides=1)
+    
+    # TODO: Add the same number of Decoder Blocks as the number of Encoder Blocks
+    l4 = decoder_block(l3, l1, 32)
+    l5 = decoder_block(l4, inputs, 16)
+    
+    
+    # The function returns the output layer of your model. "x" is the final layer obtained from\
+	the last decoder_block()
+    return layers.Conv2D(num_classes, 3, activation='softmax', padding='same')(l5)
+
+learning_rate = 0.05
+batch_size = 128
+num_epochs = 5
+
+==================================
+Results:
+Epoch 1/5
+500/500 [==============================] - 403s - loss: 0.0418 - val_loss: 0.0510
+Epoch 2/5
+500/500 [==============================] - 402s - loss: 0.0168 - val_loss: 0.0336
+Epoch 3/5
+500/500 [==============================] - 395s - loss: 0.0145 - val_loss: 0.0323
+Epoch 4/5
+500/500 [==============================] - 394s - loss: 0.0133 - val_loss: 0.0283
+Epoch 5/5
+500/500 [==============================] - 394s - loss: 0.0124 - val_loss: 0.0269
+
+
+number of validation samples intersection over the union evaulated on 724
+average intersection over union for background is 0.9957735432227053
+average intersection over union for hero is 0.4523540967126911
+average intersection over union for other people is 0.14001239655528752
+global average intersection over union is 0.5293800121635613
+
+

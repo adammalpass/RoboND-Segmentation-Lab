@@ -1,0 +1,4 @@
+data/train/*
+data/validation/*
+data/runs/*
+code/utils/__pycache__/
